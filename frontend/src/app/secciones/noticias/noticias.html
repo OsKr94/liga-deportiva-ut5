@@ -1,0 +1,38 @@
+  <!-- NOTICIAS: Carrusel + modal detalle -->
+  <section id="noticias" class="py-5">
+    <div class="container">
+      <div class="d-flex align-items-baseline justify-content-between flex-wrap gap-3 mb-3">
+        <h2 class="h3 m-0">Noticias recientes</h2>
+        <small id="carruselContador" class="text-body-secondary">1 / 3</small>
+      </div>
+
+      <div id="newsCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner rounded shadow-sm overflow-hidden">
+          <div class="carousel-item active" data-title="Arranca la liga escolar" data-content="La edición 2025/26 comienza con 12 equipos inscritos en fútbol y 8 en baloncesto. Calendario provisional publicado." data-img="https://images.unsplash.com/photo-1543351611-58f69d7c1781?auto=format&fit=crop&w=1600&q=80">
+            <img src="https://images.unsplash.com/photo-1543351611-58f69d7c1781?auto=format&fit=crop&w=1600&q=80" class="d-block w-100 object-fit-cover" alt="Inicio liga" height="420">
+            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">Arranca la liga escolar</div>
+          </div>
+          <div class="carousel-item" data-title="Nuevas normas de fair play" data-content="Se implementan tarjetas de convivencia y sanciones educativas para fomentar el respeto entre participantes." data-img="https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&w=1600&q=80">
+            <img src="https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&w=1600&q=80" class="d-block w-100 object-fit-cover" alt="Fair play" height="420">
+            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">Nuevas normas de fair play</div>
+          </div>
+          <div class="carousel-item" data-title="eSports se suma a la liga" data-content="Este año estrenamos competición de eSports con torneos por títulos y final presencial." data-img="https://senet-cloud.s3.eu-central-1.amazonaws.com/assets/images/601aed8998c53/copper_box_arena.jpg">
+            <img src="https://senet-cloud.s3.eu-central-1.amazonaws.com/assets/images/601aed8998c53/copper_box_arena.jpg" class="d-block w-100 object-fit-cover" alt="eSports" height="420">
+            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">eSports se suma a la liga</div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#newsCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Siguiente</span>
+        </button>
+      </div>
+
+      <div class="text-center mt-3">
+        <button class="btn btn-primary btn-hover" id="btnVerNoticia" data-bs-toggle="modal" data-bs-target="#modalNoticia">Leer noticia</button>
+      </div>
+    </div>
+  </section>

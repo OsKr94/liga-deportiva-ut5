@@ -1,0 +1,110 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Panel de administración</h2>
+    <button class="btn btn-outline-danger btn-sm" (click)="cerrarSesion()">
+      Cerrar sesión
+    </button>
+  </div>
+  <!-- Mensajes -->
+  <div *ngIf="mensaje" class="alert alert-info py-2">
+    {{ mensaje }}
+  </div>
+
+  <div *ngIf="cargando" class="alert alert-warning py-2">
+    Cargando datos, espera un momento...
+  </div>
+
+  <!-- LISTA DE PARTIDOS -->
+  <h3 class="h5 mt-4">Partidos existentes</h3>
+
+  <div class="table-responsive" *ngIf="partidos.length > 0; else sinPartidos">
+    <table class="table table-sm table-striped align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Deporte</th>
+          <th>Local</th>
+          <th>Visitante</th>
+          <th>Fecha</th>
+          <th>Ubicación</th>
+          <th>Árbitro</th>
+          <th>Resultado</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of partidos">
+          <td>{{ p.deporte }}</td>
+          <td>{{ p.equipoLocal }}</td>
+          <td>{{ p.equipoVisitante }}</td>
+          <td>{{ p.fecha | date:'short' }}</td>
+          <td>{{ p.ubicacion }}</td>
+          <td>{{ p.arbitro }}</td>
+          <td>{{ p.resultado?.golesLocal }} - {{ p.resultado?.golesVisitante }}</td>
+          <td>{{ p.estado }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #sinPartidos>
+    <p class="text-muted">Todavía no hay partidos registrados.</p>
+  </ng-template>
+
+  <hr class="my-4">
+
+  <!-- FORMULARIO CREAR PARTIDO -->
+  <h3 class="h5 mb-3">Crear nuevo partido</h3>
+
+  <form (ngSubmit)="crearPartido()" #formPartido="ngForm" class="row g-3">
+
+    <div class="col-md-3">
+      <label class="form-label">Deporte</label>
+      <select class="form-select" [(ngModel)]="nuevoPartido.deporte" name="deporte" required>
+        <option value="futbol">Fútbol</option>
+        <option value="baloncesto">Baloncesto</option>
+        <option value="tenis">Tenis</option>
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Equipo local</label>
+      <input type="text" class="form-control" [(ngModel)]="nuevoPartido.equipoLocal" name="equipoLocal" required>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Equipo visitante</label>
+      <input type="text" class="form-control" [(ngModel)]="nuevoPartido.equipoVisitante" name="equipoVisitante" required>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Fecha</label>
+      <input type="datetime-local" class="form-control" [(ngModel)]="nuevoPartido.fecha" name="fecha" required>
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Ubicación</label>
+      <input type="text" class="form-control" [(ngModel)]="nuevoPartido.ubicacion" name="ubicacion">
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Árbitro (usuario)</label>
+      <input type="text" class="form-control" [(ngModel)]="nuevoPartido.arbitro" name="arbitro">
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label">Goles local</label>
+      <input type="number" class="form-control" [(ngModel)]="nuevoPartido.golesLocal" name="golesLocal">
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label">Goles visitante</label>
+      <input type="number" class="form-control" [(ngModel)]="nuevoPartido.golesVisitante" name="golesVisitante">
+    </div>
+
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit" [disabled]="formPartido.invalid || cargando">
+        Crear partido
+      </button>
+    </div>
+  </form>
+</div>

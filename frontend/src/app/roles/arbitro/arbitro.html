@@ -1,0 +1,43 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Partidos asignados al árbitro: {{ usuario }}</h2>
+    <button class="btn btn-outline-danger btn-sm" (click)="cerrarSesion()">
+      Cerrar sesión
+    </button>
+  </div>
+
+  <div *ngIf="mensaje" class="alert alert-info py-2">
+    {{ mensaje }}
+  </div>
+
+  <div *ngIf="cargando" class="alert alert-warning py-2">
+    Cargando tus partidos, espera un momento...
+  </div>
+
+  <div class="table-responsive" *ngIf="partidos.length > 0">
+    <table class="table table-sm table-striped align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Deporte</th>
+          <th>Local</th>
+          <th>Visitante</th>
+          <th>Fecha</th>
+          <th>Ubicación</th>
+          <th>Resultado</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of partidos">
+          <td>{{ p.deporte }}</td>
+          <td>{{ p.equipoLocal }}</td>
+          <td>{{ p.equipoVisitante }}</td>
+          <td>{{ p.fecha | date:'short' }}</td>
+          <td>{{ p.ubicacion }}</td>
+          <td>{{ p.resultado?.golesLocal }} - {{ p.resultado?.golesVisitante }}</td>
+          <td>{{ p.estado }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

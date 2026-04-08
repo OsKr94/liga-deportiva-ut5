@@ -1,0 +1,263 @@
+<app-noticias></app-noticias>
+<app-competiciones></app-competiciones>
+
+<!-- EQUIPOS (filtrado por competición) -->
+<section id="equipos" class="py-5">
+  <div class="container">
+    <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
+      <h2 class="h3 m-0">Equipos</h2>
+      <div class="btn-group" role="group" aria-label="Filtro competición">
+        <input type="radio" class="btn-check" name="filtroComp" id="filtroTodos" autocomplete="off" checked>
+        <label class="btn btn-outline-secondary" for="filtroTodos">Todos</label>
+        <input type="radio" class="btn-check" name="filtroComp" id="filtroFutbol" autocomplete="off">
+        <label class="btn btn-outline-secondary" for="filtroFutbol">Fútbol</label>
+        <input type="radio" class="btn-check" name="filtroComp" id="filtroBaloncesto" autocomplete="off">
+        <label class="btn btn-outline-secondary" for="filtroBaloncesto">Baloncesto</label>
+        <input type="radio" class="btn-check" name="filtroComp" id="filtroTenis" autocomplete="off">
+        <label class="btn btn-outline-secondary" for="filtroTenis">Tenis</label>
+        <input type="radio" class="btn-check" name="filtroComp" id="filtroEsports" autocomplete="off">
+        <label class="btn btn-outline-secondary" for="filtroEsports">eSports</label>
+      </div>
+    </div>
+
+    <div id="gridEquipos" class="row g-4">
+      <!-- Se rellena dinámicamente desde app.js con cards y botón "Ver ficha" que abre modalEquipo -->
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS (filtrado + tablas responsive) -->
+<section id="resultados" class="py-5 bg-body-tertiary">
+  <div class="container">
+    <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
+      <h2 class="h3 m-0">Resultados</h2>
+      <div class="dropdown">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Competición: <span id="labelCompResultados">Todas</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="#" data-comp="all">Todas</a></li>
+          <li><a class="dropdown-item" href="#" data-comp="futbol">Fútbol</a></li>
+          <li><a class="dropdown-item" href="#" data-comp="baloncesto">Baloncesto</a></li>
+          <li><a class="dropdown-item" href="#" data-comp="tenis">Tenis</a></li>
+          <li><a class="dropdown-item" href="#" data-comp="esports">eSports</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Jornada</th>
+            <th>Competición</th>
+            <th>Local</th>
+            <th></th>
+            <th>Visitante</th>
+            <th>Fecha</th>
+            <th>Resultado</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyResultados"><!-- Relleno JS --></tbody>
+      </table>
+    </div>
+
+    <div class="mt-3">
+      <button class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#calendarioHoy" aria-expanded="false" aria-controls="calendarioHoy">
+        Ver calendario del día
+      </button>
+      <div id="calendarioHoy" class="collapse mt-2">
+        <div class="card card-body">
+          <p class="m-0 small">
+            Aquí podrías listar partidos programados para hoy. (Demostración de <code>Collapse</code> + logs en consola.)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLASIFICACIONES -->
+<section id="clasificaciones" class="py-5">
+  <div class="container">
+    <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
+      <h2 class="h3 m-0">Clasificaciones</h2>
+      <select id="selectTablaClasif" class="form-select w-auto">
+        <option value="futbol" selected>Fútbol</option>
+        <option value="baloncesto">Baloncesto</option>
+        <option value="tenis">Tenis</option>
+        <option value="esports">eSports</option>
+      </select>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Equipo / Jugador</th>
+            <th>PJ</th>
+            <th>PG</th>
+            <th>PE</th>
+            <th>PP</th>
+            <th>GF</th>
+            <th>GC</th>
+            <th>PTS</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyClasif"><!-- Relleno JS --></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- JUGADORES -->
+<section id="jugadores" class="py-5 bg-body-tertiary">
+  <div class="container">
+    <h2 class="h3 mb-3">Jugadores</h2>
+    <div class="row g-3 align-items-end mb-3">
+      <div class="col-sm-6 col-lg-4">
+        <label class="form-label" for="inputBuscarJugador">Buscar por nombre</label>
+        <input id="inputBuscarJugador" type="text" class="form-control" placeholder="Ej: Marta, Luis..." />
+      </div>
+      <div class="col-sm-6 col-lg-4">
+        <label class="form-label" for="selectCompJug">Competición</label>
+        <select id="selectCompJug" class="form-select">
+          <option value="all">Todas</option>
+          <option value="futbol">Fútbol</option>
+          <option value="baloncesto">Baloncesto</option>
+          <option value="tenis">Tenis</option>
+          <option value="esports">eSports</option>
+        </select>
+      </div>
+    </div>
+    <div id="listJugadores" class="row g-3"><!-- Tarjetas dinámicas --></div>
+  </div>
+</section>
+
+<!-- ÁRBITROS -->
+<section id="arbitros" class="py-5">
+  <div class="container">
+    <h2 class="h3 mb-3">Árbitros</h2>
+    <div class="row g-3 align-items-end mb-3">
+      <div class="col-sm-6 col-lg-4">
+        <label class="form-label" for="inputBuscarArbitro">Buscar por nombre</label>
+        <input id="inputBuscarArbitro" type="text" class="form-control" placeholder="Ej: Sara, Diego..." />
+      </div>
+      <div class="col-sm-6 col-lg-4">
+        <label class="form-label" for="selectCompArb">Competición</label>
+        <select id="selectCompArb" class="form-select">
+          <option value="all">Todas</option>
+          <option value="futbol">Fútbol</option>
+          <option value="baloncesto">Baloncesto</option>
+          <option value="tenis">Tenis</option>
+          <option value="esports">eSports</option>
+        </select>
+      </div>
+      </div>
+      <div id="listArbitros" class="row g-3"><!-- Tarjetas dinámicas --></div>
+  </div>
+</section>
+
+<!-- ZONA AUTENTICACIÓN (provisional en inicio) -->
+<app-login></app-login>
+<app-registro></app-registro>
+
+<!-- CONTACTO -->
+<section id="contacto" class="py-5 bg-body-tertiary">
+  <div class="container">
+    <h2 class="h3 mb-4 text-center">Contacto</h2>
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="accordion" id="faq">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="h1">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c1" aria-expanded="true" aria-controls="c1">
+                ¿Cómo me inscribo?
+              </button>
+            </h2>
+            <div id="c1" class="accordion-collapse collapse show" data-bs-parent="#faq">
+              <div class="accordion-body">
+                Desde el botón <em>Inscribirme</em> de la cabecera o en el menú. Se abrirá un modal con el formulario.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="h2">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2" aria-expanded="false" aria-controls="c2">
+                ¿Qué deportes hay?
+              </button>
+            </h2>
+            <div id="c2" class="accordion-collapse collapse" data-bs-parent="#faq">
+              <div class="accordion-body">
+                Fútbol, baloncesto, tenis y eSports. ¡Y abiertos a más!
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="h3">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c3" aria-expanded="false" aria-controls="c3">
+                ¿Cómo envío dudas?
+              </button>
+            </h2>
+            <div id="c3" class="accordion-collapse collapse" data-bs-parent="#faq">
+              <div class="accordion-body">
+                Usa el formulario de contacto o escribe a
+                <a href="mailto:liga@iesmaestre.es">liga@iesmaestre.es</a>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <form id="formContacto" class="card shadow-sm p-4 needs-validation" novalidate>
+          <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input name="nombre" type="text" class="form-control" required>
+            <div class="invalid-feedback">Introduce tu nombre.</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input name="email" type="email" class="form-control" required>
+            <div class="invalid-feedback">Introduce un email válido.</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Mensaje</label>
+            <textarea name="mensaje" class="form-control" rows="4" required></textarea>
+            <div class="invalid-feedback">Escribe tu mensaje.</div>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 btn-hover">Enviar</button>
+        </form>
+
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+          <div id="toastOk" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <strong class="me-auto">Contacto</strong>
+              <small>Ahora</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">Mensaje enviado correctamente. ¡Gracias!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Aquí irían tus MODALES (Noticia, Equipo, Persona, Inscripción...) exactamente como los tenías -->
+<!-- Modal Noticia -->
+<div class="modal fade" id="modalNoticia" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalNoticiaTitulo">Título noticia</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <img id="modalNoticiaImg" class="img-fluid rounded mb-3" alt="imagen noticia">
+        <p id="modalNoticiaTexto" class="mb-0"></p>
+      </div>
+    </div>
+  </div>
+</div>
