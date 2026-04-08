@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://liga-backend-3mza.onrender.com/api'
+  apiUrl: 'https://liga-backend-ut5.onrender.com/api'
 };
