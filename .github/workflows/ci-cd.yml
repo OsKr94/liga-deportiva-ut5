@@ -76,16 +76,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Deploy frontend to Render
-        run: |
-          curl -X POST https://api.render.com/v1/services/${{ secrets.RENDER_FRONTEND_SERVICE_ID }}/deploys \
-            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-            -H "Content-Type: application/json"
+        run: curl --fail -s -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_FRONTEND_SERVICE_ID }}/deploys" -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" -H "Content-Type: application/json" -d '{}'
 
       - name: Deploy backend to Render
-        run: |
-          curl -X POST https://api.render.com/v1/services/${{ secrets.RENDER_BACKEND_SERVICE_ID }}/deploys \
-            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-            -H "Content-Type: application/json"
+        run: curl --fail -s -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_BACKEND_SERVICE_ID }}/deploys" -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" -H "Content-Type: application/json" -d '{}'
 
       - name: Notify deployment
         run: echo "✅ Deployment to Render completed successfully"
