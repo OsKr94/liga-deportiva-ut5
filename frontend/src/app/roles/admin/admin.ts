@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PartidosService, Partido } from '../../partidos.service';
+import { PartidosService, Partido, ClubOption, LigaOption } from '../../partidos.service';
 
 @Component({
   selector: 'app-admin',
@@ -15,14 +15,14 @@ import { PartidosService, Partido } from '../../partidos.service';
 export class Admin implements OnInit {
 
   partidos: Partido[] = [];
+  clubs: ClubOption[] = [];
+  ligas: LigaOption[] = [];
 
   nuevoPartido = {
-    deporte: 'futbol',
-    equipoLocal: '',
-    equipoVisitante: '',
+    ligaId: null as number | null,
+    clubLocalId: null as number | null,
+    clubVisitanteId: null as number | null,
     fecha: '',
-    ubicacion: '',
-    arbitro: '',
     golesLocal: 0,
     golesVisitante: 0
   };
@@ -36,7 +36,40 @@ export class Admin implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.cargarCatalogos();
     this.cargarPartidos();
+  }
+
+  cargarCatalogos(): void {
+    this.partidosService.getClubs().subscribe({
+      next: (clubs) => {
+        this.clubs = clubs;
+
+        if (!this.nuevoPartido.clubLocalId && clubs.length > 0) {
+          this.nuevoPartido.clubLocalId = clubs[0].id;
+        }
+
+        if (!this.nuevoPartido.clubVisitanteId && clubs.length > 1) {
+          this.nuevoPartido.clubVisitanteId = clubs[1].id;
+        }
+      },
+      error: () => {
+        this.mensaje = 'No se pudieron cargar los clubes.';
+      }
+    });
+
+    this.partidosService.getLigas().subscribe({
+      next: (ligas) => {
+        this.ligas = ligas;
+
+        if (!this.nuevoPartido.ligaId && ligas.length > 0) {
+          this.nuevoPartido.ligaId = ligas[0].id;
+        }
+      },
+      error: () => {
+        this.mensaje = 'No se pudieron cargar las ligas.';
+      }
+    });
   }
 
   cargarPartidos(): void {
@@ -57,21 +90,25 @@ export class Admin implements OnInit {
   }
 
   crearPartido(): void {
+    if (!this.nuevoPartido.ligaId || !this.nuevoPartido.clubLocalId || !this.nuevoPartido.clubVisitanteId) {
+      this.mensaje = 'Selecciona liga y clubes para crear el partido.';
+      return;
+    }
+
+    if (this.nuevoPartido.clubLocalId === this.nuevoPartido.clubVisitanteId) {
+      this.mensaje = 'El club local y el visitante no pueden ser el mismo.';
+      return;
+    }
+
     this.mensaje = '';
     this.cargando = true;
 
-    const partido: Partido = {
-      deporte: this.nuevoPartido.deporte,
-      equipoLocal: this.nuevoPartido.equipoLocal,
-      equipoVisitante: this.nuevoPartido.equipoVisitante,
+    const partido = {
+      liga_id: this.nuevoPartido.ligaId,
+      club_local_id: this.nuevoPartido.clubLocalId,
+      club_visitante_id: this.nuevoPartido.clubVisitanteId,
       fecha: this.nuevoPartido.fecha,
-      ubicacion: this.nuevoPartido.ubicacion,
-      arbitro: this.nuevoPartido.arbitro,
-      resultado: {
-        golesLocal: this.nuevoPartido.golesLocal,
-        golesVisitante: this.nuevoPartido.golesVisitante
-      },
-      estado: 'pendiente'
+      resultado: `${this.nuevoPartido.golesLocal}-${this.nuevoPartido.golesVisitante}`,
     };
 
     this.partidosService.crearPartido(partido).subscribe({
@@ -79,18 +116,14 @@ export class Admin implements OnInit {
         console.log('Partido creado:', resp);
         this.mensaje = 'Partido creado correctamente.';
         this.cargarPartidos();
-        this.nuevoPartido.equipoLocal = '';
-        this.nuevoPartido.equipoVisitante = '';
         this.nuevoPartido.fecha = '';
-        this.nuevoPartido.ubicacion = '';
-        this.nuevoPartido.arbitro = '';
         this.nuevoPartido.golesLocal = 0;
         this.nuevoPartido.golesVisitante = 0;
         this.cargando = false;
       },
       error: (err) => {
         console.error('Error creando partido', err);
-        this.mensaje = 'Error al crear el partido.';
+        this.mensaje = err?.error?.mensaje || err?.error?.message || 'Error al crear el partido.';
         this.cargando = false;
       }
     });
@@ -99,6 +132,6 @@ export class Admin implements OnInit {
   cerrarSesion(): void {
     localStorage.removeItem('tipoUsuario');
     localStorage.removeItem('usuario');
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
   }
 }

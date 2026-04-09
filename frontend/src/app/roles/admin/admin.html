@@ -55,40 +55,45 @@
   <!-- FORMULARIO CREAR PARTIDO -->
   <h3 class="h5 mb-3">Crear nuevo partido</h3>
 
+  <div *ngIf="ligas.length === 0 || clubs.length < 2" class="alert alert-warning py-2">
+    Necesitas al menos una liga y dos clubes registrados para crear partidos.
+  </div>
+
   <form (ngSubmit)="crearPartido()" #formPartido="ngForm" class="row g-3">
 
     <div class="col-md-3">
-      <label class="form-label">Deporte</label>
-      <select class="form-select" [(ngModel)]="nuevoPartido.deporte" name="deporte" required>
-        <option value="futbol">Fútbol</option>
-        <option value="baloncesto">Baloncesto</option>
-        <option value="tenis">Tenis</option>
+      <label class="form-label">Liga</label>
+      <select class="form-select" [(ngModel)]="nuevoPartido.ligaId" name="ligaId" required>
+        <option [ngValue]="null">Selecciona una liga</option>
+        <option *ngFor="let liga of ligas" [ngValue]="liga.id">
+          {{ liga.nombre }} ({{ liga.temporada }})
+        </option>
       </select>
     </div>
 
     <div class="col-md-3">
       <label class="form-label">Equipo local</label>
-      <input type="text" class="form-control" [(ngModel)]="nuevoPartido.equipoLocal" name="equipoLocal" required>
+      <select class="form-select" [(ngModel)]="nuevoPartido.clubLocalId" name="clubLocalId" required>
+        <option [ngValue]="null">Selecciona club local</option>
+        <option *ngFor="let club of clubs" [ngValue]="club.id">
+          {{ club.nombre }}
+        </option>
+      </select>
     </div>
 
     <div class="col-md-3">
       <label class="form-label">Equipo visitante</label>
-      <input type="text" class="form-control" [(ngModel)]="nuevoPartido.equipoVisitante" name="equipoVisitante" required>
+      <select class="form-select" [(ngModel)]="nuevoPartido.clubVisitanteId" name="clubVisitanteId" required>
+        <option [ngValue]="null">Selecciona club visitante</option>
+        <option *ngFor="let club of clubs" [ngValue]="club.id">
+          {{ club.nombre }}
+        </option>
+      </select>
     </div>
 
     <div class="col-md-3">
       <label class="form-label">Fecha</label>
       <input type="datetime-local" class="form-control" [(ngModel)]="nuevoPartido.fecha" name="fecha" required>
-    </div>
-
-    <div class="col-md-4">
-      <label class="form-label">Ubicación</label>
-      <input type="text" class="form-control" [(ngModel)]="nuevoPartido.ubicacion" name="ubicacion">
-    </div>
-
-    <div class="col-md-4">
-      <label class="form-label">Árbitro (usuario)</label>
-      <input type="text" class="form-control" [(ngModel)]="nuevoPartido.arbitro" name="arbitro">
     </div>
 
     <div class="col-md-2">
@@ -102,7 +107,7 @@
     </div>
 
     <div class="col-12">
-      <button class="btn btn-primary" type="submit" [disabled]="formPartido.invalid || cargando">
+      <button class="btn btn-primary" type="submit" [disabled]="formPartido.invalid || cargando || ligas.length === 0 || clubs.length < 2">
         Crear partido
       </button>
     </div>

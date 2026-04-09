@@ -10,5 +10,6 @@ php artisan cache:clear || true
 php artisan route:clear || true
 php artisan view:clear || true
 php artisan migrate --force || true
+php artisan db:seed --force || true
 
 exec /start.sh

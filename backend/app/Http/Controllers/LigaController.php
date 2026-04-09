@@ -21,6 +21,7 @@ class LigaController extends Controller
     {
         $datos = $request->validate([
             'nombre'    => 'required|string|max:100',
+            'deporte'   => 'required|string|max:100',
             'temporada' => 'required|string|max:20',
         ]);
 
@@ -31,6 +32,7 @@ class LigaController extends Controller
     {
         $datos = $request->validate([
             'nombre'    => 'sometimes|required|string|max:100',
+            'deporte'   => 'sometimes|required|string|max:100',
             'temporada' => 'sometimes|required|string|max:20',
         ]);
 

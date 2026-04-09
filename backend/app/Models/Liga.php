@@ -11,6 +11,7 @@ class Liga extends Model
 
     protected $fillable = [
         'nombre',
+        'deporte',
         'temporada',
     ];
 }
