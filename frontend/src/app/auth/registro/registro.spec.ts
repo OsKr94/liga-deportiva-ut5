@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
 
 import { Registro } from './registro';
 
@@ -8,7 +9,8 @@ describe('Registro', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Registro]
+      imports: [Registro],
+      providers: [provideHttpClient()]
     })
     .compileComponents();
 
