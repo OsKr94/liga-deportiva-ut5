@@ -73,6 +73,16 @@ jobs:
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
 
     steps:
+      - name: Check secrets are set
+        env:
+          FRONTEND_ID: ${{ secrets.RENDER_FRONTEND_SERVICE_ID }}
+          BACKEND_ID: ${{ secrets.RENDER_BACKEND_SERVICE_ID }}
+          API_KEY: ${{ secrets.RENDER_API_KEY }}
+        run: |
+          echo "RENDER_FRONTEND_SERVICE_ID set: $([ -n "$FRONTEND_ID" ] && echo YES || echo NO - EMPTY)"
+          echo "RENDER_BACKEND_SERVICE_ID set: $([ -n "$BACKEND_ID" ] && echo YES || echo NO - EMPTY)"
+          echo "RENDER_API_KEY set: $([ -n "$API_KEY" ] && echo YES || echo NO - EMPTY)"
+
       - name: Deploy frontend to Render
         env:
           SERVICE_ID: ${{ secrets.RENDER_FRONTEND_SERVICE_ID }}
