@@ -6,6 +6,10 @@ use App\Http\Controllers\ClubController;
 use App\Http\Controllers\JugadorController;
 use App\Http\Controllers\LigaController;
 use App\Http\Controllers\PartidoController;
+use App\Http\Controllers\AuthController;
+
+Route::post('registro', [AuthController::class, 'registro']);
+Route::post('login', [AuthController::class, 'login']);
 
 // RUTAS PÚBLICAS (GET)
 Route::apiResource('clubs', ClubController::class)->only(['index','show']);

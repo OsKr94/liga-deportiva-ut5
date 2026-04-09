@@ -25,6 +25,24 @@ export class Registro {
 
   constructor(private authService: AuthService) {}
 
+  private obtenerMensajeError(err: any): string {
+    const apiMessage = err?.error?.mensaje || err?.error?.message;
+    if (apiMessage) {
+      return apiMessage;
+    }
+
+    const errores = err?.error?.errors;
+    if (errores && typeof errores === 'object') {
+      const primerCampo = Object.keys(errores)[0];
+      const primerError = primerCampo ? errores[primerCampo]?.[0] : null;
+      if (primerError) {
+        return primerError;
+      }
+    }
+
+    return 'Error al conectar con el servidor.';
+  }
+
   onSubmit() {
     this.cargando = true;
     this.mensaje = '';
@@ -38,7 +56,7 @@ export class Registro {
         },
         error: (err) => {
           console.error('❌ Error en registro:', err);
-          this.mensaje = 'Error al conectar con el servidor.';
+          this.mensaje = this.obtenerMensajeError(err);
           this.cargando = false;
         }
       });

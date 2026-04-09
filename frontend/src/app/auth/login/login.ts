@@ -26,6 +26,24 @@ export class Login {
     private router: Router
   ) {}
 
+  private obtenerMensajeError(err: any): string {
+    const apiMessage = err?.error?.mensaje || err?.error?.message;
+    if (apiMessage) {
+      return apiMessage;
+    }
+
+    const errores = err?.error?.errors;
+    if (errores && typeof errores === 'object') {
+      const primerCampo = Object.keys(errores)[0];
+      const primerError = primerCampo ? errores[primerCampo]?.[0] : null;
+      if (primerError) {
+        return primerError;
+      }
+    }
+
+    return 'Error al conectar con el servidor.';
+  }
+
   onSubmit() {
     if (!this.modelo.usuario || !this.modelo.password) {
       return;
@@ -64,7 +82,7 @@ export class Login {
         },
         error: (err) => {
           console.error('❌ Error en login:', err);
-          this.mensaje = 'Error al conectar con el servidor.';
+          this.mensaje = this.obtenerMensajeError(err);
           this.cargando = false;
         }
       });
