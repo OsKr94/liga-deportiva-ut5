@@ -3,13 +3,12 @@ const path = require('path');
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular/build'],
+    frameworks: ['jasmine'],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
-      require('@angular/build/plugins/karma'),
     ],
     client: {
       clearContext: false,
