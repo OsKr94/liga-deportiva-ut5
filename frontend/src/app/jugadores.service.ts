@@ -25,4 +25,13 @@ export class JugadoresService {
   getJugadores(): Observable<Jugador[]> {
     return this.http.get<Jugador[]>(this.apiUrl);
   }
+
+  
+  addJugador(data: Omit<Jugador, 'id' | 'created_at' | 'updated_at'>): Observable<Jugador> {
+    return this.http.post<Jugador>(this.apiUrl, data);
+  }
+
+  deleteJugador(id: number): Observable<{ ok: boolean }> {
+    return this.http.delete<{ ok: boolean }>(`${this.apiUrl}/${id}`);
+  }
 }
